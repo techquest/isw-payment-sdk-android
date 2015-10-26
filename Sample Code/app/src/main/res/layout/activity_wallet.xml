@@ -1,0 +1,102 @@
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools" android:layout_width="match_parent"
+    android:layout_height="match_parent" android:paddingLeft="@dimen/activity_horizontal_margin"
+    android:paddingRight="@dimen/activity_horizontal_margin"
+    android:paddingTop="@dimen/activity_vertical_margin"
+    android:paddingBottom="@dimen/activity_vertical_margin"
+    tools:context="com.example.akinyemiakindele.paymentsdkdemo.WalletActivity">
+
+    <Spinner
+        android:id="@+id/paymentMethodSpinner"
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content" />
+
+    <Button
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Pay With This Card"
+        android:id="@+id/payButton"
+        android:layout_alignTop="@+id/reloadButton"
+        android:layout_alignRight="@+id/pinOfCard"
+        android:layout_alignEnd="@+id/pinOfCard" />
+
+    <Button
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Reload Wallet"
+        android:id="@+id/reloadButton"
+        android:layout_centerVertical="true"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentStart="true"
+        android:backgroundTint="#ff183066"/>
+
+    <EditText
+        android:layout_width="150dp"
+        android:layout_height="wrap_content"
+        android:inputType="numberPassword"
+        android:ems="10"
+        android:id="@+id/pinOfCard"
+        android:layout_below="@+id/paymentMethodSpinner"
+        android:layout_alignRight="@+id/paymentMethodSpinner"
+        android:layout_alignEnd="@+id/paymentMethodSpinner"
+        android:layout_marginTop="40dp"/>
+
+    <TextView
+        android:layout_width="150dp"
+        android:layout_height="40dp"
+        android:text="Pin"
+        android:textStyle="bold"
+        android:id="@+id/textView6"
+        android:layout_alignTop="@+id/pinOfCard"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentStart="true"
+        android:gravity="center"/>
+
+    <EditText
+        android:layout_width="150dp"
+        android:layout_height="wrap_content"
+        android:id="@+id/identifier"
+        android:layout_above="@+id/textView6"
+        android:layout_alignParentRight="true"
+        android:layout_alignParentEnd="true"
+        android:text="1234567890" />
+
+    <TextView
+        android:layout_width="150dp"
+        android:layout_height="40dp"
+        android:text="Customer Id"
+        android:id="@+id/textView7"
+        android:layout_above="@+id/textView6"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentStart="true"
+        android:layout_alignRight="@+id/textView6"
+        android:layout_alignEnd="@+id/textView6"
+        android:gravity="center"
+        android:textStyle="bold"/>
+
+    <EditText
+        android:layout_width="150dp"
+        android:layout_height="wrap_content"
+        android:id="@+id/amount"
+        android:text="100"
+        android:layout_below="@+id/textView6"
+        android:layout_above="@+id/payButton"
+        android:layout_alignRight="@+id/pinOfCard"
+        android:layout_alignEnd="@+id/pinOfCard"
+        android:layout_alignLeft="@+id/pinOfCard"
+        android:layout_alignStart="@+id/pinOfCard" />
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Amount"
+        android:id="@+id/textView8"
+        android:layout_above="@+id/payButton"
+        android:layout_below="@+id/pinOfCard"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentStart="true"
+        android:layout_alignRight="@+id/textView6"
+        android:layout_alignEnd="@+id/textView6"
+        android:gravity="center"/>
+
+</RelativeLayout>
