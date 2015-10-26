@@ -27,7 +27,7 @@ import com.interswitchng.sdk.util.StringUtils;
 
 
 public class CardActivity extends ActionBarActivity {
-    private EditText identifier;
+    private EditText customerId;
     private EditText amount;
     private EditText cardno;
     private EditText pin;
@@ -40,7 +40,7 @@ public class CardActivity extends ActionBarActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_card);
-        identifier = (EditText) findViewById(R.id.identifier);
+        customerId = (EditText) findViewById(R.id.identifier);
         amount = (EditText) findViewById(R.id.amount);
         cardno = (EditText) findViewById(R.id.pan);
         pin = (EditText) findViewById(R.id.password);
@@ -87,7 +87,7 @@ public class CardActivity extends ActionBarActivity {
         final RequestOptions options = RequestOptions.builder().setClientId("IKIA3E267D5C80A52167A581BBA04980CA64E7B2E70E").setClientSecret("SagfgnYsmvAdmFuR24sKzMg7HWPmeh67phDNIiZxpIY=").build();
 
         final PurchaseRequest request = new PurchaseRequest();
-        request.setCustomerId(identifier.getText().toString()); //Optional email, mobile no, BVN etc to uniquely identify the customer
+        request.setCustomerId(customerId.getText().toString()); //Optional email, mobile no, BVN etc to uniquely identify the customer
         request.setAmount(amount.getText().toString()); //Amount in Naira
         request.setPan(cardno.getText().toString()); //Card No
         request.setPinData(pin.getText().toString()); //Card PIN
@@ -148,7 +148,7 @@ public class CardActivity extends ActionBarActivity {
 
                     //Authorize OTP
                     final AuthorizeOtpRequest request = new AuthorizeOtpRequest();
-                    request.setOtpTransactionIdentifier(identifier.getText().toString()); //otpTransactionIdentifier from the first leg
+                    request.setOtpTransactionIdentifier(customerId.getText().toString()); //otpTransactionIdentifier from the first leg
                     request.setOtp(otp); //OTP from user
 
                     new PaymentSDK(context, options).authorizeOtp(request, new IswCallback<AuthorizeOtpResponse>() {

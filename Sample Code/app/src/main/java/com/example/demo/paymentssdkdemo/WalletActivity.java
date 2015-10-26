@@ -37,7 +37,7 @@ import com.interswitchng.sdk.util.StringUtils;
 public class WalletActivity extends ActionBarActivity {
     private ArrayAdapter<String> adapter;
     private Spinner paymentSpinner;
-    private EditText pin, identifier, amount;
+    private EditText pin, customerId, amount;
     private Button walletBtn, payBtn;
     private ProgressDialog progressDialog;
 
@@ -49,7 +49,7 @@ public class WalletActivity extends ActionBarActivity {
         paymentSpinner = (Spinner) findViewById(R.id.paymentMethodSpinner);
         walletBtn = (Button) findViewById(R.id.reloadButton);
         payBtn = (Button) findViewById(R.id.payButton);
-        identifier = (EditText) findViewById(R.id.identifier);
+        customerId = (EditText) findViewById(R.id.identifier);
         amount = (EditText) findViewById(R.id.amount);
         walletBtn.setBackgroundColor(Color.BLUE);
         walletBtn.setOnClickListener(new View.OnClickListener() {
@@ -112,7 +112,7 @@ public class WalletActivity extends ActionBarActivity {
 
         //Pay with Wallet Item
         final PurchaseRequest request = new PurchaseRequest();
-        request.setCustomerId(identifier.getText().toString()); //Optional email, mobile no, BVN etc to uniquely identify the customer
+        request.setCustomerId(customerId.getText().toString()); //Optional email, mobile no, BVN etc to uniquely identify the customer
         request.setAmount(amount.getText().toString()); //Amount in Naira
         if (paymentSpinner.getSelectedItem() == null) {
             return;
@@ -169,7 +169,7 @@ public class WalletActivity extends ActionBarActivity {
 
                     //Authorize OTP
                     final AuthorizeOtpRequest request = new AuthorizeOtpRequest();
-                    request.setOtpTransactionIdentifier(identifier.getText().toString()); //otpTransactionIdentifier from the first leg
+                    request.setOtpTransactionIdentifier(customerId.getText().toString()); //otpTransactionIdentifier from the first leg
                     request.setOtp(otp); //OTP from user
 
                     new PaymentSDK(context, options).authorizeOtp(request, new IswCallback<AuthorizeOtpResponse>() {
