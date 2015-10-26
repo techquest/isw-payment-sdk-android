@@ -1,17 +1,3 @@
-.gradle
-.idea
-/local.properties
-/.idea/workspace.xml
-/.idea/libraries
-.DS_Store
-/build
-/captures
-PaymentsSDKDemo.iml/
-settings.gradle
-local.properties
-gradlew
-gradle.properties
-
 # Built application files
 *.apk
 *.ap_
