@@ -6,8 +6,8 @@
 .DS_Store
 /build
 /captures
-PaymentsSDKDemo.iml/
-settings.gradle
-local.properties
-gradlew
-gradle.properties
+/PaymentsSDKDemo.iml/
+/settings.gradle
+/local.properties
+/gradlew
+/gradle.properties
