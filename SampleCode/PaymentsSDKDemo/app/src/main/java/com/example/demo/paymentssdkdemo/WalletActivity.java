@@ -38,7 +38,7 @@ public class WalletActivity extends ActionBarActivity {
     private ArrayAdapter<String> adapter;
     private Spinner paymentSpinner;
     private EditText pin, identifier, amount;
-    private Button wallet, pay;
+    private Button walletBtn, payBtn;
     private ProgressDialog progressDialog;
 
 
@@ -47,30 +47,30 @@ public class WalletActivity extends ActionBarActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_wallet);
         paymentSpinner = (Spinner) findViewById(R.id.paymentMethodSpinner);
-        wallet = (Button) findViewById(R.id.reloadbutton);
-        pay = (Button) findViewById(R.id.paybutton);
+        walletBtn = (Button) findViewById(R.id.reloadButton);
+        payBtn = (Button) findViewById(R.id.payButton);
         identifier = (EditText) findViewById(R.id.identifier);
         amount = (EditText) findViewById(R.id.amount);
-        wallet.setBackgroundColor(Color.BLUE);
-        wallet.setOnClickListener(new View.OnClickListener() {
+        walletBtn.setBackgroundColor(Color.BLUE);
+        walletBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                useVerve();
+                loadWallet();
             }
         });
-        pay.setOnClickListener(new View.OnClickListener(){
+        payBtn.setOnClickListener(new View.OnClickListener() {
             @Override
-            public void onClick(View v){
+            public void onClick(View v) {
                 payWithThisCard();
             }
         });
-        useVerve();
+        loadWallet();
 
 
 
     }
 
-    public void useVerve(){
+    public void loadWallet(){
         Passport.overrideApiBase("https://qa.interswitchng.com/passport");
         Payment.overrideApiBase("https://qa.interswitchng.com");
         progressDialog = ProgressDialog.show(this, "Laoding Wallet",

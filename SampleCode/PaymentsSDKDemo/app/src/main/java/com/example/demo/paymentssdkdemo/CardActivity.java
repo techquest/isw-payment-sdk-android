@@ -9,6 +9,7 @@ import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
+import android.widget.Button;
 import android.widget.EditText;
 
 import com.interswitchng.sdk.auth.Passport;
@@ -31,6 +32,7 @@ public class CardActivity extends ActionBarActivity {
     private EditText cardno;
     private EditText pin;
     private EditText expiry;
+    private Button payBtn;
     private ProgressDialog progressDialog;
 
 
@@ -43,6 +45,13 @@ public class CardActivity extends ActionBarActivity {
         cardno = (EditText) findViewById(R.id.pan);
         pin = (EditText) findViewById(R.id.password);
         expiry = (EditText) findViewById(R.id.expiry);
+        payBtn = (Button) findViewById(R.id.cardPay);
+        payBtn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                cardPay();
+            }
+        });
     }
 
     @Override
@@ -67,7 +76,7 @@ public class CardActivity extends ActionBarActivity {
         return super.onOptionsItemSelected(item);
     }
 
-    public void cardPay(View v){
+    public void cardPay(){
         Passport.overrideApiBase("https://qa.interswitchng.com/passport");
         Payment.overrideApiBase("https://qa.interswitchng.com");
         progressDialog = ProgressDialog.show(this, "Transaction Processing",
