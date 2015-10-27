@@ -3,7 +3,7 @@
 ## Payment SDK for Android
 
 Interswitch payment SDK allows you accept payments from customers within your mobile application.
-The first step to ​using the ​Android SDK is to register as a merchant. This is described here
+The first step to ​using the ​Android SDK is to register as a merchant. This is described [here] (http://merchantxuat.interswitchng.com/paymentgateway/sdk/android-sdk)
 
 
 ### Download the SDK
