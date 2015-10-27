@@ -159,7 +159,7 @@ public class CardActivity extends AppCompatActivity {
                             AlertDialog.Builder alertDialog = new AlertDialog.Builder(CardActivity.this);
                             alertDialog.setTitle("Transaction Result");
                             alertDialog.setMessage(error.getMessage());
-                            alertDialog.setPositiveButton("Okay",
+                            alertDialog.setPositiveButton("Ok",
                                     new DialogInterface.OnClickListener() {
                                         public void onClick(DialogInterface dialog, int which) {
                                             dialog.dismiss();
@@ -175,7 +175,7 @@ public class CardActivity extends AppCompatActivity {
                             alertDialog.setTitle("Transaction Result");
                             alertDialog.setMessage("Transaction succesful");
                             final EditText input = new EditText(CardActivity.this);
-                            alertDialog.setPositiveButton("Okay",
+                            alertDialog.setPositiveButton("Ok",
                                     new DialogInterface.OnClickListener() {
                                         public void onClick(DialogInterface dialog, int which) {
                                             otp = input.getText().toString();
@@ -192,7 +192,7 @@ public class CardActivity extends AppCompatActivity {
                     AlertDialog.Builder alertDialog = new AlertDialog.Builder(CardActivity.this);
                     alertDialog.setTitle("Transaction Result");
                     alertDialog.setMessage("Transaction Succeeded");
-                    alertDialog.setPositiveButton("Okay",
+                    alertDialog.setPositiveButton("Ok",
                             new DialogInterface.OnClickListener() {
                                 public void onClick(DialogInterface dialog, int which) {
                                     dialog.dismiss();

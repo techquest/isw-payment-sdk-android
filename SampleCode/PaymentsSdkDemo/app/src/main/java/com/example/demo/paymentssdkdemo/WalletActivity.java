@@ -50,7 +50,7 @@ public class WalletActivity extends AppCompatActivity {
         paymentSpinner = (Spinner) findViewById(R.id.payMethod);
         walletBtn = (Button) findViewById(R.id.refreshButton);
         payBtn = (Button) findViewById(R.id.payButton);
-        customerId = (EditText) findViewById(R.id.identifier);
+        customerId = (EditText) findViewById(R.id.customerid);
         amount = (EditText) findViewById(R.id.amount);
         walletBtn.setBackgroundColor(Color.BLUE);
         walletBtn.setOnClickListener(new View.OnClickListener() {
@@ -195,7 +195,7 @@ public class WalletActivity extends AppCompatActivity {
                             AlertDialog.Builder alertDialog = new AlertDialog.Builder(WalletActivity.this);
                             alertDialog.setTitle("Transaction Result");
                             alertDialog.setMessage("Transaction succesful");
-                            alertDialog.setPositiveButton("Okay",
+                            alertDialog.setPositiveButton("Ok",
                                     new DialogInterface.OnClickListener() {
                                         public void onClick(DialogInterface dialog, int which) {
                                             dialog.dismiss();
@@ -211,7 +211,7 @@ public class WalletActivity extends AppCompatActivity {
                     AlertDialog.Builder alertDialog = new AlertDialog.Builder(WalletActivity.this);
                     alertDialog.setTitle("Transaction Result");
                     alertDialog.setMessage("Transaction Succeeded");
-                    alertDialog.setPositiveButton("Okay",
+                    alertDialog.setPositiveButton("Ok",
                             new DialogInterface.OnClickListener() {
                                 public void onClick(DialogInterface dialog, int which) {
                                     dialog.dismiss();
