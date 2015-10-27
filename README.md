@@ -35,7 +35,7 @@ It consists of ​4 libraries:
 
 Ask the user for input
 
-In the onClick method of the button that asks the user to pay, add
+In the onClick method of the button that asks the user to pay, add this code
   
 
     //Pay with Card
@@ -75,7 +75,8 @@ In the onClick method of the button that asks the user to pay, add
 ## Payment with Wallet
 
 
-To load Verve wallet, add
+To load Verve wallet, add this code
+
     //Load Wallet
     final WalletRequest request = new WalletRequest();
     request.setTransactionRef(RandomString.numeric(12));
@@ -93,7 +94,9 @@ To load Verve wallet, add
     }
 	});
 ​
+
 After populating the spinner, when the user clicks an item and the clicks pay, use this code
+
     //Pay with Wallet Item
     final PurchaseRequest request = new PurchaseRequest();
     request.setCustomerId(“1234567890"); //Optional email, mobile no, BVN etc to uniquely identify the customer
