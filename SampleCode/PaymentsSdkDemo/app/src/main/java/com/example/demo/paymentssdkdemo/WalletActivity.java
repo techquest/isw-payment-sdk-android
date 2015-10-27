@@ -52,7 +52,6 @@ public class WalletActivity extends AppCompatActivity {
         payBtn = (Button) findViewById(R.id.payButton);
         customerId = (EditText) findViewById(R.id.customerid);
         amount = (EditText) findViewById(R.id.amount);
-        walletBtn.setBackgroundColor(Color.BLUE);
         walletBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
