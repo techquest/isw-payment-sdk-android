@@ -67,6 +67,7 @@ In the onClick method of the button that asks the user to pay, add this code
         }
     }
     });
+	
 ```
 
 ## Accepting Payment with Wallet
@@ -105,10 +106,8 @@ After populating the spinner, when the user clicks an item and the clicks pay, u
     request.setPinData(pin.getText().toString());
     request.setCurrency("NGN");
     request.setTransactionRef(RandomString.numeric(12));
- 
-    //Send payment
+	//Send payment
     new WalletSDK(context, options).purchase(request, new IswCallback<PurchaseResponse>() {
- 
     @Override
     public void onError(Exception error) {
         // Handle and notify user of error
@@ -123,4 +122,5 @@ After populating the spinner, when the user clicks an item and the clicks pay, u
            //Handle and notify user of successful transaction
         }
     }
+	
 ```
