@@ -73,7 +73,7 @@ In the onClick method of the button that asks the user to pay, add this code
 
 
 To load Verve wallet, add this code
-
+```java
     //Load Wallet
     final WalletRequest request = new WalletRequest();
     request.setTransactionRef(RandomString.numeric(12));
@@ -91,9 +91,9 @@ To load Verve wallet, add this code
     }
 	});
 ​
-
+```
 After populating the spinner, when the user clicks an item and the clicks pay, use this code
-
+```java
     //Pay with Wallet Item
     final PurchaseRequest request = new PurchaseRequest();
     request.setCustomerId(“1234567890"); //Optional email, mobile no, BVN etc to uniquely identify the customer
@@ -123,3 +123,4 @@ After populating the spinner, when the user clicks an item and the clicks pay, u
            //Handle and notify user of successful transaction
         }
     }
+```
