@@ -37,13 +37,14 @@ Ask the user for input
 
 In the onClick method of the button that asks the user to pay, add this code
 
-```android 
+```java 
 
     //Pay with Card
     RequestOptions options = RequestOptions.builder().setClientId("IKIA3E267D5C80A52167A581BBA04980CA64E7B2E70E").setClientSecret("SagfgnYsmvAdmFuR24sKzMg7HWPmeh67phDNIiZxpIY=").build();
  
     final PurchaseRequest request = new PurchaseRequest();
-    request.setCustomerId(“1234567890"); //Optional email, mobile no, BVN etc to uniquely identify the customer
+	
+    request.setCustomerId(“1234567890"); //Optional email, mobile no, BVN etc to uniquely identify the customer;
     request.setAmount(“100"); //Amount in Naira
     request.setPan(“5060100000000000012"); //Card No
     request.setPinData("1111"); //Card PIN
