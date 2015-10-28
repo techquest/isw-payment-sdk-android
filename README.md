@@ -39,7 +39,11 @@ In the onClick method of the button that asks the user to pay, add this code
 
 ```java
 //Pay with Card
-    RequestOptions options = RequestOptions.builder().setClientId("IKIA3E267D5C80A52167A581BBA04980CA64E7B2E70E").setClientSecret("SagfgnYsmvAdmFuR24sKzMg7HWPmeh67phDNIiZxpIY=").build(); 
+    RequestOptions options = RequestOptions.builder()
+	.setClientId("IKIA3E267D5C80A52167A581BBA04980CA64E7B2E70E")
+	.setClientSecret("SagfgnYsmvAdmFuR24sKzMg7HWPmeh67phDNIiZxpIY=").build(); 
+```
+```java
 	final PurchaseRequest request = new PurchaseRequest();
     request.setCustomerId(“1234567890"); //Optional email, mobile no, BVN etc to uniquely identify the customer
     request.setAmount(“100"); //Amount in Naira
@@ -49,6 +53,8 @@ In the onClick method of the button that asks the user to pay, add this code
     request.setCurrency("NGN");
     request.setTransactionRef(RandomString.numeric(12)); //unique transaction reference
     Context context = this; // reference to your Android Activity
+```
+```java	
     //Send payment
     new PaymentSDK(context, options).purchase(request, new IswCallback<PurchaseResponse>() {
     @Override
