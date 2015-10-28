@@ -106,7 +106,7 @@ After populating the spinner, when the user clicks an item and the clicks pay, u
 	//Optional email, mobile no, BVN etc to uniquely identify the customer
 ```
 ```java
-	request.setCustomerId(“1234567890"); Amount in Naira
+	request.setCustomerId(“1234567890"); //Amount in Naira
     request.setAmount("100"); 
     if (paymethodSpinner.getSelectedItem() == null) {
 		return;
