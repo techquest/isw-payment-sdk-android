@@ -104,7 +104,9 @@ After populating the spinner, when the user clicks an item and the clicks pay, u
     //Pay with Wallet Item
     final PurchaseRequest request = new PurchaseRequest();
 	//Optional email, mobile no, BVN etc to uniquely identify the customer
-    request.setCustomerId(“1234567890"); 
+```
+```java
+	request.setCustomerId(“1234567890"); 
 	//Amount in Naira
     request.setAmount("100"); 
     if (paymethodSpinner.getSelectedItem() == null) {
