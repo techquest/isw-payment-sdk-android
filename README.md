@@ -41,9 +41,9 @@ In the onClick method of the button that asks the user to pay, add this code
 
     //Pay with Card
     RequestOptions options = RequestOptions.builder().setClientId("IKIA3E267D5C80A52167A581BBA04980CA64E7B2E70E").setClientSecret("SagfgnYsmvAdmFuR24sKzMg7HWPmeh67phDNIiZxpIY=").build();
- 
-    final PurchaseRequest request = new PurchaseRequest();
-	
+```
+```java
+    final PurchaseRequest request = new PurchaseRequest();	
     request.setCustomerId(“1234567890"); //Optional email, mobile no, BVN etc to uniquely identify the customer;
     request.setAmount(“100"); //Amount in Naira
     request.setPan(“5060100000000000012"); //Card No
@@ -52,15 +52,16 @@ In the onClick method of the button that asks the user to pay, add this code
     request.setCurrency("NGN");
     request.setTransactionRef(RandomString.numeric(12)); //unique transaction reference
     Context context = this; // reference to your Android Activity
- 
+```
+```java 
     //Send payment
-    new PaymentSDK(context, options).purchase(request, new IswCallback<PurchaseResponse>() {
- 
+    new PaymentSDK(context, options).purchase(request, new IswCallback<PurchaseResponse>() { 
     @Override
     public void onError(Exception error) {
         // Handle and notify user of error
     }
- 
+```
+```java 
     @Override
     public void onSuccess(PurchaseResponse response) {
     if (StringUtils.hasText(response.getOtpTransactionIdentifier())) {
@@ -75,7 +76,6 @@ In the onClick method of the button that asks the user to pay, add this code
 ```
 
 ## Accepting Payment with Wallet
-
 
 To load Verve wallet, add this code
 
