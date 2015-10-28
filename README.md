@@ -37,7 +37,7 @@ Ask the user for input
 
 In the onClick method of the button that asks the user to pay, add this code
 
-```javascript
+```c#
 //Pay with Card
 RequestOptions options = RequestOptions.builder().setClientId("IKIA3E267D5C80A52167A581BBA04980CA64E7B2E70E").setClientSecret("SagfgnYsmvAdmFuR24sKzMg7HWPmeh67phDNIiZxpIY=").build();
 final PurchaseRequest request = new PurchaseRequest();
