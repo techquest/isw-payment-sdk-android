@@ -2,7 +2,7 @@
 
 ## Payment SDK for Android
 
-Interswitch payment SDK allows you accept payments from customers within your mobile application.
+Interswitch payment SDK allows you to accept payments from customers within your mobile application.
 The first step to ​using the ​Android SDK is to register as a merchant. This is described [here] (http://merchantxuat.interswitchng.com/paymentgateway/getting-started/overview/sign-up-as-a-merchant)
 
 
@@ -36,7 +36,8 @@ It consists of ​4 libraries:
 Ask the user for input
 
 In the onClick method of the button that asks the user to pay, add this code
-  
+
+``` java 
 
     //Pay with Card
     RequestOptions options = RequestOptions.builder().setClientId("IKIA3E267D5C80A52167A581BBA04980CA64E7B2E70E").setClientSecret("SagfgnYsmvAdmFuR24sKzMg7HWPmeh67phDNIiZxpIY=").build();
@@ -70,7 +71,7 @@ In the onClick method of the button that asks the user to pay, add this code
 		}
     }
     });
-
+```
 
 ## Accepting Payment with Wallet
 
