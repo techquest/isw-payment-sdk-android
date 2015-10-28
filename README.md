@@ -24,11 +24,11 @@ It consists of ​4 libraries:
 
 ### Creating the project and adding libraries using Android Studio
 
-1. Download *Android Studio 1.2.2* or later
-2. Create new project
-3. Add *core.jar, payment.jar, payment-android-release.aar* and *gson-2.​3.1.jar* to your project by putting them in the libs folder of the app.
-4. To add the *payment-android-release.aar* library, navigate to **File -> New -> New Module -> Import .JAR/.AAR Package** option in Android Studio.
-5. Select the *payment-android-release.aar*
+1. Download **Android Studio 1.2.2** or later
+2. Create a new project
+3. Add **core.jar, payment.jar, payment-android-release.aar** and **gson-2.​3.1.jar** to your project by putting them in the libs folder of the app.
+4. To add the **payment-android-release.aar** library, navigate to **File -> New -> New Module -> Import .JAR/.AAR Package** option in Android Studio.
+5. Select the **payment-android-release.aar**
 6. Finally, rebuild the project 
 
 ### Accepting Payments with Card 
