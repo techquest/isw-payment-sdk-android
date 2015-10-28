@@ -3,7 +3,7 @@
 ## Payment SDK for Android
 
 Interswitch payment SDK allows you accept payments from customers within your mobile application.
-The first step to ​using the ​Android SDK is to register as a merchant. This is described [here] (http://merchantxuat.interswitchng.com/paymentgateway/sdk/android-sdk)
+The first step to ​using the ​Android SDK is to register as a merchant. This is described [here] (http://merchantxuat.interswitchng.com/paymentgateway/getting-started/overview/sign-up-as-a-merchant)
 
 
 ### Download the SDK
@@ -14,12 +14,12 @@ https://github.com/techquest/isw-payment-sdk-android/releases
 
 It consists of ​4 libraries:
 
-*core.jar*
-*payment.jar*
-*payment-android-release.aar*
-*gson-2.​3.1.jar*
+1. *core.jar*
+2. *payment.jar*
+3. *payment-android-release.aar*
+4. *gson-2.​3.1.jar*
 
-**Use Android Studio’s dependency management tool (Gradle) to add the library to your project.**
+**Use Android Studio’s dependency management tool (Gradle) to add the libraries to your project.**
 
 
 ### Creating the project and adding libraries using Android Studio
@@ -63,7 +63,7 @@ In the onClick method of the button that asks the user to pay, add this code
     public void onSuccess(PurchaseResponse response) {
     if (StringUtils.hasText(response.getOtpTransactionIdentifier())) {
 		//OTP required
-		//Ask user for OTP and authorize transaction using the otp                Transaction Identifier
+		//Ask user for OTP and authorize transaction using the otpTransactionIdentifier
     } else { 
 		//OTP not required
         //Handle and notify user of successful transaction
@@ -72,7 +72,7 @@ In the onClick method of the button that asks the user to pay, add this code
     });
 
 
-## Payment with Wallet
+## Accepting Payment with Wallet
 
 
 To load Verve wallet, add this code
