@@ -137,3 +137,28 @@ After populating the spinner, when the user clicks an item and then clicks pay, 
     }
 	
 ```
+
+##Checking status of payment
+
+To check the status of a payment made, use the code below
+
+```java
+	//pass the transaction ref and the amount as the parameters to getPaymentStatus()
+	new WalletSDK(context, options).getPaymentStatus("117499114589", "100", new IswCallback<PaymentStatusResponse>() {
+    @Override
+    public void onError(Exception error) {
+        // Handle and notify user of error
+    }
+
+    @Override
+    public void onSuccess(PaymentStatusResponse response) {
+        //print response message
+    }
+    });
+```
+
+###Using android sdk to create Blackberry App
+To create a Blackberry app using the **runtime for Android** 
+
+1. Create an android app as above using SDK provided for android
+2. Cronvert the app according to the instructions stated on Blackberry's website [here] (http://developer.blackberry.com/android/) and [here] (http://developer.blackberry.com/android/documentation/bb_android_studio_plugin_tool.html)
