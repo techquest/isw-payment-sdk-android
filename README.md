@@ -50,7 +50,7 @@ During development of your app, you should use the SDK in sandbox mode to enable
 * Use Sandbox Client Id and Client Secret got from the Sandbox Tab of the Developer Console after signup(usually you have to wait for 5 minutes after signup for you to see the Sandbox details) everywhere you are required to supply Client Id and Client Secret in the remainder of this documentation              
 * In your code, override the api base as follows
 ```java
-    Passport.overrideApiBase("https://sandbox.interswitchng.com/passport"); 
+    Passport.overrideApiBase(Passport.QA_API_BASE); 
     Payment.overrideApiBase(SANDBOX_API_BASE); 
 ```
 * Follow the remaining steps in the documentation.
@@ -323,19 +323,91 @@ Note: Supply your Client Id and Client Secret you got after registering as a Mer
 
 * Validate card is used to check if a card is a valid card, it returns the card balance and token
 * To call validate card, use this code.
+* In the onClick listener of the validate button, use this code.
 
   Note: Supply your Client Id and Client Secret you got after registering as a Merchant
 
 ```java
-           RequestOptions options = RequestOptions.builder().setClientId("IKIA3E267D5C80A52167A581BBA04980CA64E7B2E70E").setClientSecret("SagfgnYsmvAdmFuR24sKzMg7HWPmeh67phDNIiZxpIY=").build();
-           ValidateCardRequest request = new ValidateCardRequest();
-           request.setPan("5060990580000217499");
-           request.setPinData("1111");
-           request.setExpiryDate("2004");
-           request.setCvv2("111");
-           request.setTransactionRef(RandomString.numeric(12));
-           ValidateCardResponse response = new PurchaseClient(options).validateCard(request);
-           //Handle and notify user of card validity  
+           
+       List<EditText> fields = new ArrayList<>(); // Create ArrayList of EditText
+       fields.clear();
+       fields.add(cardPan); // Add the field for collecting card PAN 
+       if (isVerveShowing) { // If card is Verve card
+           //Add fields for collecting expiry date, CVV and PIN                               
+       } else { // If card is not Verve
+            // Add fields for collecting expiry date and CVV
+       }
+       if (Validation.isValidEditboxes(fields)) { //
+           if (Util.isNetworkAvailable(getActivity())) { //
+               final ValidateCardRequest request = new ValidateCardRequest();
+               request.setCustomerId("1234567890"); //Optional email, mobile no, BVN etc to uniquely identify the customer.
+               request.setPan(cardPan.getText().toString().replaceAll("-", ""));
+               if (isVerveShowing) {
+                   request.setCvv2("111"); // Card CVV
+                   request.setExpiryDate("2004"); // Card expiry date in YYMM format
+                   request.setPinData("1111"); // Card PIN
+               } else {
+                   request.setCvv2("111"); // Card CVV
+                   request.setExpiryDate("2004"); // Card expiry date in YYMM format
+               }
+               request.setTransactionRef(RandomString.numeric(12)); // Generate a unique transaction reference.
+               String deviceId = Settings.Secure.getString(activity.getContentResolver(), Settings.Secure.ANDROID_ID); // Get device ID
+               request.setDeviceId(deviceId); //Set the device ID
+               if (deviceLocation != null) {
+                   request.setDeviceLocation(deviceLocation); // Set device location
+               } 
+               Util.hide_keyboard(getActivity()); // Hide the keyboard
+               Util.showProgressDialog(activity, "Validating Card"); // Display progress message to user
+               String redId = getBlackbox(getActivity().getApplicationContext()); //Get redId
+               if (redId != null) {
+                   request.setRedId(redId); //Set RedId
+               }
+               new PaymentSDK(activity, options).validateCard(request, new IswCallback<ValidateCardResponse>() {
+
+                   @Override
+                   public void onError(Exception error) { 
+                        //Return error to developer              
+                   }
+
+                   @Override
+                   public void onSuccess(final ValidateCardResponse validateCardResponse) {
+                       Util.hideProgressDialog();
+                       Card card = new Card(request.getPan(), null, null, null); 
+                       String type = card.getType(); //Get card type
+                       validateCardResponse.setCardType(type); //Set card type
+                       if (StringUtils.hasText(validateCardResponse.getOtpTransactionIdentifier())) {
+                           final PurchaseResponse purchaseResponse = new PurchaseResponse();
+                           purchaseResponse.setCardType(type); // Set card type
+                           copyResponse(validateCardResponse, purchaseResponse);
+                           final OtpFragment otpFragment = new OtpFragment(); // Call OTP fragment
+                           otpFragment.setCustomerId("1234567890"); //Optional email, mobile no, BVN etc to uniquely identify the customer.
+                           otpFragment.setRequestOptions(options);
+                           otpFragment.setResponse(purchaseResponse);
+                           otpFragment.setCallback(new IswCallback<AuthorizeOtpResponse>() {
+                               @Override
+                               public void onError(Exception error) { 
+                                    // Return error to developer
+                               }
+
+                               @Override
+                               public void onSuccess(AuthorizeOtpResponse response) { 
+                                   // Return success to developer                                   
+                               }
+                           });
+                           FragmentManager fragmentManager = activity.getFragmentManager();
+                           otpFragment.show(fragmentManager, "otp");
+                       } else {
+                           finish();
+                           callback.onSuccess(validateCardResponse);
+                           dismiss();
+                       }
+                   }
+               });
+
+           } else {
+               Util.notifyNoNetwork(getActivity());
+           }
+       }                       
 ```
 
 ### Authorize Transaction With OTP
