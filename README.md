@@ -50,7 +50,7 @@ During development of your app, you should use the SDK in sandbox mode to enable
 * Use Sandbox Client Id and Client Secret got from the Sandbox Tab of the Developer Console after signup(usually you have to wait for 5 minutes after signup for you to see the Sandbox details) everywhere you are required to supply Client Id and Client Secret in the remainder of this documentation              
 * In your code, override the api base as follows
 ```java
-    Passport.overrideApiBase("https://qa.interswitchng.com/passport"); 
+    Passport.overrideApiBase("https://sandbox.interswitchng.com/passport"); 
     Payment.overrideApiBase(SANDBOX_API_BASE); 
 ```
 * Follow the remaining steps in the documentation.
@@ -318,6 +318,24 @@ Note: Supply your Client Id and Client Secret you got after registering as a Mer
                 }
             }
     );
+```
+### Validate Card
+
+* Validate card is used to check if a card is a valid card, it returns the card balance and token
+* To call validate card, use this code.
+
+  Note: Supply your Client Id and Client Secret you got after registering as a Merchant
+
+```java
+           RequestOptions options = RequestOptions.builder().setClientId("IKIA3E267D5C80A52167A581BBA04980CA64E7B2E70E").setClientSecret("SagfgnYsmvAdmFuR24sKzMg7HWPmeh67phDNIiZxpIY=").build();
+           ValidateCardRequest request = new ValidateCardRequest();
+           request.setPan("5060990580000217499");
+           request.setPinData("1111");
+           request.setExpiryDate("2004");
+           request.setCvv2("111");
+           request.setTransactionRef(RandomString.numeric(12));
+           ValidateCardResponse response = new PurchaseClient(options).validateCard(request);
+           //Handle and notify user of card validity  
 ```
 
 ### Authorize Transaction With OTP
