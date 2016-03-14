@@ -249,8 +249,8 @@ Note: Supply your Client Id and Client Secret you got after registering as a Mer
                    // See how to authorize transaction with OTP below.
                 }
                 else {
-                 // OTP not required.
-                 // Handle and notify user of successful transaction. A token for the card details is returned in the response.
+                    // OTP not required.
+                    // Handle and notify user of successful transaction. A token for the card details is returned in the response.
                 }
                 // The response object contains fields transactionIdentifier, message, amount, token, tokenExpiryDate, panLast4Digits, otpTransactionIdentifier, transactionRef and cardType. Save the token, tokenExpiryDate, cardType and panLast4Digits in order to pay with the token in the future.
             }
@@ -280,7 +280,7 @@ Note: Supply your Client Id and Client Secret you got after registering as a Mer
             @Override
             public void onSuccess(WalletResponse response) {
                 PaymentMethod[] paymentMethods = response.getPaymentMethods();
-                //Display payment methods in a Spinner
+                // Display payment methods in a Spinner
             }
     });
 ```
@@ -311,11 +311,11 @@ Note: Supply your Client Id and Client Secret you got after registering as a Mer
             @Override
             public void onSuccess(PurchaseResponse response) {
                 if (StringUtils.hasText(response.getOtpTransactionIdentifier())) {
-                    //OTP required
-                    //Ask user for OTP and authorize transaction using the otp Transaction Identifier
+                    // OTP required
+                    // Ask user for OTP and authorize transaction using the otp Transaction Identifier
                 } else { 
-                    //OTP not required
-                   //Handle and notify user of successful transaction
+                    // OTP not required
+                    // Handle and notify user of successful transaction
                 }
             }
     );
@@ -332,16 +332,18 @@ Note: Supply your Client Id and Client Secret you got after registering as a Mer
                new PaymentSDK(activity, options).validateCard(request, new IswCallback<ValidateCardResponse>() {
                    @Override
                    public void onError(Exception error) { 
-                        //Return error to developer              
+                        // Handle error.
+                        // Card validation not successful              
                    }
                    @Override
                    public void onSuccess(final ValidateCardResponse validateCardResponse) {                                              
-                       if (StringUtils.hasText(validateCardResponse.getOtpTransactionIdentifier())) {                                                          
-                           // OTP is required
-                           //Ask user for OTP and validate the card using the otp Transaction Identifier
+                       if (StringUtils.hasText(validateCardResponse.getOtpTransactionIdentifier())) {                                                                                     
+                           /* Handle success.
+                              Card validation successful. The response object contains fields token, tokenExpiryDate, panLast4Digits, transactionRef and cardType. Save the token, tokenExpiryDate, cardType and panLast4Digits in order to pay with the token in the future.
+                           */
                        } else { 
                             // OTP is not required   
-                            // Handle and notify user of successful validation
+                            // Card validation successful
                        }
                    }
                });                               
