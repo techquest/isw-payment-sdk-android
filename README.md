@@ -1,7 +1,8 @@
 ## Payment SDK for Android
 
 Interswitch payment SDK allows you to accept payments from customers within your mobile application.
-The first step to ​using the ​Android SDK is to register as a merchant. This is described [here] (http://merchantxuat.interswitchng.com/paymentgateway/getting-started/overview/sign-up-as-a-merchant)
+**Please Note: *The current supported currency is naira (NGN), support for other currencies would be added later***
+The first step to ​using the ​Android SDK is to register as a merchant. This is described [here] (merchantxuat.interswitchng.com)
 
 
 ### Download the latest SDK
@@ -49,8 +50,8 @@ During development of your app, you should use the SDK in sandbox mode to enable
 * Use Sandbox Client Id and Client Secret got from the Sandbox Tab of the Developer Console after signup(usually you have to wait for 5 minutes after signup for you to see the Sandbox details) everywhere you are required to supply Client Id and Client Secret in the remainder of this documentation              
 * In your code, override the api base as follows
 ```java
-    Passport.overrideApiBase("https://sandbox.interswitchng.com/passport"); 
-    Payment.overrideApiBase("https://sandbox.interswitchng.com"); 
+    Passport.overrideApiBase(Passport.QA_API_BASE); 
+    Payment.overrideApiBase(SANDBOX_API_BASE); 
 ```
 * Follow the remaining steps in the documentation.
 * NOTE: When going into Production mode, use the Client Id and the Client Secret got from the Production Tab of Developer Console instead.
@@ -317,6 +318,36 @@ Note: Supply your Client Id and Client Secret you got after registering as a Mer
                 }
             }
     );
+```
+### Validate Card
+
+* Validate card is used to check if a card is a valid card, it returns the card balance and token
+* To call validate card, use this code.
+* In the onClick listener of the validate button, use this code.
+
+  Note: Supply your Client Id and Client Secret you got after registering as a Merchant
+
+```java
+               final ValidateCardRequest request = new ValidateCardRequest();
+               request.setCustomerId("1234567890"); //Optional email, mobile no, BVN etc to uniquely identify the customer.
+               request.setPan("5060100000000000012");               
+               request.setTransactionRef(RandomString.numeric(12)); // Generate a unique transaction reference.
+               new PaymentSDK(activity, options).validateCard(request, new IswCallback<ValidateCardResponse>() {
+                   @Override
+                   public void onError(Exception error) { 
+                        //Return error to developer              
+                   }
+                   @Override
+                   public void onSuccess(final ValidateCardResponse validateCardResponse) {                                              
+                       if (StringUtils.hasText(validateCardResponse.getOtpTransactionIdentifier())) {                                                          
+                           // OTP is required
+                           //Ask user for OTP and validate the card using the otp Transaction Identifier
+                       } else { 
+                            // OTP is not required   
+                            // Handle and notify user of successful validation
+                       }
+                   }
+               });                               
 ```
 
 ### Authorize Transaction With OTP
