@@ -341,11 +341,10 @@ Note: Supply your Client Id and Client Secret you got after registering as a Mer
                    public void onSuccess(final ValidateCardResponse validateCardResponse) {                                              
                        if (StringUtils.hasText(validateCardResponse.getOtpTransactionIdentifier())) {                                                          
                            // OTP is required
-                           // display OTP fragment to user
-                       } else { // OTP is not required
-                           finish();
-                           callback.onSuccess(validateCardResponse);
-                           dismiss();
+                           //Ask user for OTP and validate the card using the otp Transaction Identifier
+                       } else { 
+                            // OTP is not required   
+                            // Handle and notify user of successful validation
                        }
                    }
                });                               
