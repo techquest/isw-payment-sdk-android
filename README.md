@@ -50,7 +50,7 @@ During development of your app, you should use the SDK in sandbox mode to enable
 * Use Sandbox Client Id and Client Secret got from the Sandbox Tab of the Developer Console after signup(usually you have to wait for 5 minutes after signup for you to see the Sandbox details) everywhere you are required to supply Client Id and Client Secret in the remainder of this documentation              
 * In your code, override the api base as follows
 ```java
-    Passport.overrideApiBase("https://qa.interswitchng.com/passport"); 
+    Passport.overrideApiBase(Passport.QA_API_BASE); 
     Payment.overrideApiBase(SANDBOX_API_BASE); 
 ```
 * Follow the remaining steps in the documentation.
@@ -313,11 +313,38 @@ Note: Supply your Client Id and Client Secret you got after registering as a Mer
                 if (StringUtils.hasText(response.getOtpTransactionIdentifier())) {
                     //OTP required
                     //Ask user for OTP and authorize transaction using the otp Transaction Identifier
-                } else { //OTP not required
+                } else { 
+                    //OTP not required
                    //Handle and notify user of successful transaction
                 }
             }
     );
+```
+### Validate Card
+* Validate card is used to check if a card is a valid card, it returns the card balance and token
+* To call validate card, use this code.
+  
+```java
+               final ValidateCardRequest request = new ValidateCardRequest();
+               request.setCustomerId("1234567890"); //Optional email, mobile no, BVN etc to uniquely identify the customer.
+               request.setPan("5060100000000000012");               
+               request.setTransactionRef(RandomString.numeric(12)); // Generate a unique transaction reference.
+               new PaymentSDK(activity, options).validateCard(request, new IswCallback<ValidateCardResponse>() {
+                   @Override
+                   public void onError(Exception error) { 
+                        //Return error to developer              
+                   }
+                   @Override
+                   public void onSuccess(final ValidateCardResponse validateCardResponse) {                                              
+                       if (StringUtils.hasText(validateCardResponse.getOtpTransactionIdentifier())) {                                                          
+                           // OTP is required
+                           //Ask user for OTP and validate the card using the otp Transaction Identifier
+                       } else { 
+                            // OTP is not required   
+                            // Handle and notify user of successful validation
+                       }
+                   }
+               });                               
 ```
 
 ### Authorize Transaction With OTP
