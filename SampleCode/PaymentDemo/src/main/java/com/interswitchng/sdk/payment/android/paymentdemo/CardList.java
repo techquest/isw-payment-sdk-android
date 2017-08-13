@@ -20,12 +20,17 @@ import com.interswitchng.sdk.auth.Passport;
 import com.interswitchng.sdk.model.RequestOptions;
 import com.interswitchng.sdk.payment.IswCallback;
 import com.interswitchng.sdk.payment.Payment;
+import com.interswitchng.sdk.payment.android.PaymentSDK;
 import com.interswitchng.sdk.payment.android.inapp.PayWithToken;
 import com.interswitchng.sdk.payment.android.inapp.ValidateCard;
+import com.interswitchng.sdk.payment.android.paymentdemo.callback.AddCardCallback;
 import com.interswitchng.sdk.payment.android.util.Util;
 import com.interswitchng.sdk.payment.model.AuthorizeCardResponse;
 import com.interswitchng.sdk.payment.model.Card;
+import com.interswitchng.sdk.payment.model.PaymentStatusRequest;
+import com.interswitchng.sdk.payment.model.PaymentStatusResponse;
 import com.interswitchng.sdk.payment.model.PurchaseResponse;
+import com.interswitchng.sdk.util.RandomString;
 
 import java.util.ArrayList;
 
@@ -35,6 +40,7 @@ public class CardList extends AppCompatActivity {
     private Activity activity;
     private Context context;
     private AddCardAdapter adapter;
+    private String transactionRef;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -44,8 +50,8 @@ public class CardList extends AppCompatActivity {
         arrayList = new ArrayList<>();
         activity = this;
         context = this;
-        Payment.overrideApiBase(Payment.QA_API_BASE); // used to override the payment api base url.
-        Passport.overrideApiBase(Passport.QA_API_BASE); //used to override the payment api base url.
+        Payment.overrideApiBase(Payment.SANDBOX_API_BASE); // used to override the payment api base url.
+        Passport.overrideApiBase(Passport.SANDBOX_API_BASE); //used to override the payment api base url.
         adapter = new AddCardAdapter(arrayList, getApplicationContext());
         cardList.setAdapter(adapter);
         cardList.setOnItemClickListener(new AdapterView.OnItemClickListener() {
@@ -81,8 +87,6 @@ public class CardList extends AppCompatActivity {
                 android.view.ActionMode mActionMode = CardList.this.startActionMode(new ActionBarCallBack(position));
             }
         });
-
-
     }
 
     @Override
@@ -98,28 +102,14 @@ public class CardList extends AppCompatActivity {
         // automatically handle clicks on the Home/Up button, so long
         // as you specify a parent activity in AndroidManifest.xml.
         int id = item.getItemId();
-
+        transactionRef = RandomString.numeric(12);
         //noinspection SimplifiableIfStatement
         if (id == R.id.addCard) {
-            RequestOptions options = RequestOptions.builder().setClientId(MainActivity.CLIENT_ID).setClientSecret(MainActivity.CLIENT_SECRET).build();
-            final ValidateCard validateCard = new ValidateCard(activity, "1407002510", options, new IswCallback<AuthorizeCardResponse>() {
-
-                @Override
-                public void onError(Exception error) {
-                    Util.notify(context, "Error", error.getLocalizedMessage(), "Close", false);
-                }
-
-                @Override
-                public void onSuccess(final AuthorizeCardResponse response) {
-                    String transactionRef;
-                    transactionRef = response.getTransactionRef();
-                    Util.notify(context, "Success", "Ref: " + transactionRef, "Close", false);
-                    if (!arrayList.contains(response)) {
-                        arrayList.add(response);
-                        adapter.notifyDataSetChanged();
-                    }
-                }
-            });
+            final RequestOptions options = RequestOptions.builder().setClientId("IKIA7A92206C10CA49EB553E9FAB51A38F27F4644551").setClientSecret("e4THPrg8rgXk3eiBsSHPJvAX4Wvpuxsg6aaPlNUoRKc=").build();
+            //final RequestOptions options = RequestOptions.builder().setClientId("IKIAB9CAC83B8CB8D064799DB34A58D2C8A7026A203B").setClientSecret("z+xzMgCB8cUu1XRlzj06/TiFgT9p2wuA6q5wiZc5HZo=").build();
+            //final RequestOptions options = RequestOptions.builder().setClientId("IKIAF8F70479A6902D4BFF4E443EBF15D1D6CB19E232").setClientSecret("ugsmiXPXOOvks9MR7+IFHSQSdk8ZzvwQMGvd0GJva30=").build();
+            AddCardCallback addCardCallback = new AddCardCallback(context, arrayList, adapter);
+            final ValidateCard validateCard = new ValidateCard(activity, "1407002510", options, addCardCallback);
             validateCard.start();
             return true;
         }
@@ -191,7 +181,9 @@ public class CardList extends AppCompatActivity {
         @Override
         public boolean onActionItemClicked(android.view.ActionMode actionMode, MenuItem menuItem) {
             AuthorizeCardResponse response = arrayList.get(position);
-            RequestOptions options = RequestOptions.builder().setClientId(MainActivity.CLIENT_ID).setClientSecret(MainActivity.CLIENT_SECRET).build();
+            //final RequestOptions options = RequestOptions.builder().setClientId("IKIAF8F70479A6902D4BFF4E443EBF15D1D6CB19E232").setClientSecret("ugsmiXPXOOvks9MR7+IFHSQSdk8ZzvwQMGvd0GJva30=").build();
+            //final RequestOptions options = RequestOptions.builder().setClientId("IKIAB9CAC83B8CB8D064799DB34A58D2C8A7026A203B").setClientSecret("z+xzMgCB8cUu1XRlzj06/TiFgT9p2wuA6q5wiZc5HZo=").build();
+            final RequestOptions options = RequestOptions.builder().setClientId("IKIA7A92206C10CA49EB553E9FAB51A38F27F4644551").setClientSecret("e4THPrg8rgXk3eiBsSHPJvAX4Wvpuxsg6aaPlNUoRKc=").build();
             String customerId = "1407002510";
             String amount = "200";
             String token = response.getToken();
@@ -213,14 +205,34 @@ public class CardList extends AppCompatActivity {
                 public void onSuccess(final PurchaseResponse response) {
                     Util.hideProgressDialog();
                     String transactionIdentifier;
-                    transactionIdentifier = response.getTransactionIdentifier();
+                    transactionIdentifier = response.getTransactionRef();
                     Util.notify(context, "Success", "Ref: " + transactionIdentifier, "Close", false);
+                    getPaymentStatus(response, options);
                 }
             });
             payWithToken.start();
             return false;
         }
 
+        private void getPaymentStatus(PurchaseResponse response, RequestOptions options) {
+            PaymentStatusRequest request = new PaymentStatusRequest();
+            request.setTransactionRef(response.getTransactionRef());
+            request.setAmount(response.getAmount());
+            new PaymentSDK(context, options).paymentStatus(request, new IswCallback<PaymentStatusResponse>() {
+                @Override
+                public void onError(Exception error) {
+                    // Handle and notify user of error
+                }
+
+                @Override
+                public void onSuccess(PaymentStatusResponse response) {
+                    System.out.println(response.getMessage());
+                    System.out.println(response.getTransactionRef());
+                    System.out.println(response.getAmount());
+
+                }
+            });
+        }
         @Override
         public void onDestroyActionMode(android.view.ActionMode actionMode) {
 

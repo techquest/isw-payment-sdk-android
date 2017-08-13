@@ -6,7 +6,7 @@
 .mtj.tmp/
 
 # Package Files #
-*.jar
+#*.jar
 *.war
 *.ear
 
@@ -29,7 +29,7 @@ gen/
 
 # Gradle files
 .gradle/
-build/
+#build/
 
 # Local configuration file (sdk path, etc)
 local.properties
@@ -100,7 +100,7 @@ crashlytics.properties
 crashlytics-build.properties
 ### Gradle template
 .gradle
-build/
+#build/
 
 # Ignore Gradle GUI config
 gradle-app.setting

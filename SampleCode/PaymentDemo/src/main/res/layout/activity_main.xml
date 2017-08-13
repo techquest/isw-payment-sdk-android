@@ -14,7 +14,7 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginTop="60dp"
-        android:text="Validate card" />
+        android:text="Validate Card" />
 
     <Button
         android:id="@+id/payWithCardDialog"
@@ -36,5 +36,4 @@
         android:layout_height="wrap_content"
         android:layout_below="@+id/walletPay"
         android:text="Pay" />
-
 </RelativeLayout>

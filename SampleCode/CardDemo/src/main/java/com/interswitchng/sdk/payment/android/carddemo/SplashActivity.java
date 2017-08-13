@@ -211,6 +211,4 @@ public class SplashActivity extends AppCompatActivity implements Util.PromptResp
         }
 
     }
-
-
 }

@@ -10,23 +10,23 @@ import android.widget.Button;
 
 import com.interswitchng.sdk.auth.Passport;
 import com.interswitchng.sdk.model.RequestOptions;
-import com.interswitchng.sdk.payment.IswCallback;
+import com.interswitchng.sdk.model.SplitSettlement;
 import com.interswitchng.sdk.payment.Payment;
 import com.interswitchng.sdk.payment.android.inapp.Pay;
 import com.interswitchng.sdk.payment.android.inapp.PayWithCard;
 import com.interswitchng.sdk.payment.android.inapp.PayWithWallet;
+import com.interswitchng.sdk.payment.android.paymentdemo.callback.PaymentCallback;
 import com.interswitchng.sdk.payment.android.util.Util;
-import com.interswitchng.sdk.payment.model.PurchaseResponse;
+import com.interswitchng.sdk.util.RandomString;
 
-public class MainActivity extends AppCompatActivity {
+import java.io.Serializable;
+
+public class MainActivity extends AppCompatActivity implements Serializable {
     private Activity activity;
     private Context context;
     private Button walletPay;
     private Button selectPayOption;
-
-    public static final String CLIENT_ID = "IKIAF8F70479A6902D4BFF4E443EBF15D1D6CB19E232";
-    public static final String CLIENT_SECRET = "ugsmiXPXOOvks9MR7+IFHSQSdk8ZzvwQMGvd0GJva30=";
-
+    private String transactionRef;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -49,45 +49,36 @@ public class MainActivity extends AppCompatActivity {
         payWithCardDialog.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                RequestOptions options = RequestOptions.builder().setClientId(CLIENT_ID).setClientSecret(CLIENT_SECRET).build();
-                final PayWithCard payWithCard = new PayWithCard(activity, "1407002510", "Payment for trip completed", "200", "NGN", options, new IswCallback<PurchaseResponse>() {
-
-                    @Override
-                    public void onError(Exception error) {
-                        Util.notify(context, "Error", error.getMessage(), "Close", false);
-
-                    }
-
-                    @Override
-                    public void onSuccess(final PurchaseResponse response) {
-                        String transactionIdentifier;
-                        transactionIdentifier = response.getTransactionIdentifier();
-                        Util.notify(context, "Success", "Ref: " + transactionIdentifier, "Close", false);
-
-                    }
-                });
+                SplitSettlement[] splitSettlements = new SplitSettlement[2];
+                SplitSettlement splitSettlement1 = new SplitSettlement();
+                splitSettlement1.setAccountIdentifier("fbn acct");
+                splitSettlement1.setAccountNo("0000000001");
+                splitSettlement1.setAmount("300");
+                SplitSettlement splitSettlement2 = new SplitSettlement();
+                splitSettlement2.setAccountIdentifier("uba acct");
+                splitSettlement2.setAccountNo("0000000002");
+                splitSettlement2.setAmount("400");
+                splitSettlements[0] = splitSettlement1;
+                splitSettlements[1] = splitSettlement2;
+                RequestOptions options = RequestOptions.builder().setClientId("IKIAF8F70479A6902D4BFF4E443EBF15D1D6CB19E232").setClientSecret("ugsmiXPXOOvks9MR7+IFHSQSdk8ZzvwQMGvd0GJva30=").setSplitSettlementInformation(splitSettlements).build();
+                PaymentCallback paymentCallback = new PaymentCallback(context);
+                final PayWithCard payWithCard = new PayWithCard(activity, "1407002510", "Payment for trip completed", "1000", "NGN", options, paymentCallback);
                 payWithCard.start();
             }
         });
+
 
         walletPay = (Button) findViewById(R.id.walletPay);
         walletPay.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                RequestOptions options = RequestOptions.builder().setClientId(CLIENT_ID).setClientSecret(CLIENT_SECRET).build();
-                PayWithWallet payWithWallet = new PayWithWallet(activity, "1407002510", "Payment for Ball Gown", "200", "NGN", options, new IswCallback<PurchaseResponse>() {
-                    @Override
-                    public void onError(Exception error) {
-                        Util.hideProgressDialog();
-                        Util.notify(context, "Error", error.getMessage(), "close", false);
-                    }
-
-                    @Override
-                    public void onSuccess(PurchaseResponse response) {
-                        Util.hideProgressDialog();
-                        Util.notify(context, "Success", response.getMessage(), "close", false);
-                    }
-                });
+                transactionRef = RandomString.numeric(12);
+                //System.out.println("Transaction ref :"+transactionRef);
+                final RequestOptions options = RequestOptions.builder().setClientId("IKIA7A92206C10CA49EB553E9FAB51A38F27F4644551").setClientSecret("e4THPrg8rgXk3eiBsSHPJvAX4Wvpuxsg6aaPlNUoRKc=").build();
+                //final RequestOptions options = RequestOptions.builder().setClientId("IKIAB9CAC83B8CB8D064799DB34A58D2C8A7026A203B").setClientSecret("z+xzMgCB8cUu1XRlzj06/TiFgT9p2wuA6q5wiZc5HZo=").build();
+                //final RequestOptions options = RequestOptions.builder().setClientId("IKIAF8F70479A6902D4BFF4E443EBF15D1D6CB19E232").setClientSecret("ugsmiXPXOOvks9MR7+IFHSQSdk8ZzvwQMGvd0GJva30=").build();
+                PaymentCallback paymentCallback = new PaymentCallback(context);
+                PayWithWallet payWithWallet = new PayWithWallet(activity, "1407002510", "Payment for Ball Gown", "200", "NGN", transactionRef, options, paymentCallback);
                 payWithWallet.start();
             }
         });
@@ -96,22 +87,31 @@ public class MainActivity extends AppCompatActivity {
         selectPayOption.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                RequestOptions options = RequestOptions.builder().setClientId(CLIENT_ID).setClientSecret(CLIENT_SECRET).build();
-                Pay pay = new Pay(activity, "1407002510", "Payment for Ball Gown", "200", "NGN", options, new IswCallback<PurchaseResponse>() {
-                    @Override
-                    public void onError(Exception error) {
-                        Util.hideProgressDialog();
-                        Util.notify(context, "Error", error.getMessage(), "close", false);
-                    }
-
-                    @Override
-                    public void onSuccess(PurchaseResponse response) {
-                        Util.hideProgressDialog();
-                        Util.notify(context, "Success", response.getMessage(), "close", false);
-                    }
-                });
+                transactionRef = RandomString.numeric(12);
+                System.out.println("Transaction ref :" + transactionRef);
+                final RequestOptions options = RequestOptions.builder().setClientId("IKIA7A92206C10CA49EB553E9FAB51A38F27F4644551").setClientSecret("e4THPrg8rgXk3eiBsSHPJvAX4Wvpuxsg6aaPlNUoRKc=").build();
+                //final RequestOptions options = RequestOptions.builder().setClientId("IKIAB9CAC83B8CB8D064799DB34A58D2C8A7026A203B").setClientSecret("z+xzMgCB8cUu1XRlzj06/TiFgT9p2wuA6q5wiZc5HZo=").build();
+                //final RequestOptions options = RequestOptions.builder().setClientId("IKIAF8F70479A6902D4BFF4E443EBF15D1D6CB19E232").setClientSecret("ugsmiXPXOOvks9MR7+IFHSQSdk8ZzvwQMGvd0GJva30=").build();
+                PaymentCallback paymentCallback = new PaymentCallback(context);
+                Pay pay = new Pay(activity, "1407002510", "Payment for Ball Gown", "200", "NGN", transactionRef, options, paymentCallback);
                 pay.start();
             }
         });
+
+    }
+
+    @Override
+    protected void onSaveInstanceState(Bundle outState) {
+        super.onSaveInstanceState(outState);
     }
 }
+
+
+
+
+
+
+
+
+
+

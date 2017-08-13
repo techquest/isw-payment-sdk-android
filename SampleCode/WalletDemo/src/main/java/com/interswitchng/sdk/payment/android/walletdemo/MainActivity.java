@@ -52,8 +52,8 @@ public class MainActivity extends AppCompatActivity implements Util.PromptRespon
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
         context = this;
-        Payment.overrideApiBase("https://qa.interswitchng.com"); // used to override the payment api base url.
-        Passport.overrideApiBase("https://qa.interswitchng.com/passport"); //used to override the payment api base url.
+        Payment.overrideApiBase(Payment.QA_API_BASE); // used to override the payment api base url.
+        Passport.overrideApiBase(Passport.QA_API_BASE); //used to override the payment api base url.
 //        Passport.overrideApiBase("http://172.25.20.91:6060/passport");
 //        Payment.overrideApiBase("http://172.25.20.56:9080");
         customerID = (EditText) findViewById(R.id.customerid);

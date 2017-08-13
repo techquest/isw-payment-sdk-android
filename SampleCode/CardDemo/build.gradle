@@ -6,7 +6,7 @@ buildscript {
         }
     }
     dependencies {
-        classpath 'com.android.tools.build:gradle:1.5.0'
+        classpath 'com.android.tools.build:gradle:2.3.1'
     }
 }
 apply plugin: 'com.android.application'
@@ -19,15 +19,14 @@ repositories {
 }
 
 android {
-    compileSdkVersion 23
-    buildToolsVersion "21.1.2"
+    compileSdkVersion 25
+    buildToolsVersion "25.0.2"
     defaultConfig {
         applicationId 'com.interswitchng.sdk.payment.android.carddemo'
         minSdkVersion 15
         targetSdkVersion 21
         versionCode 1
         versionName "1.0"
-        multiDexEnabled true
     }
     compileOptions {
         sourceCompatibility JavaVersion.VERSION_1_7
@@ -55,10 +54,14 @@ android {
     productFlavors {
     }
 }
-
+repositories {
+    maven {
+        url 'http://dl.bintray.com/techquest/maven-repo'
+    }
+}
 dependencies {
     compile fileTree(include: ['*.jar'], dir: 'libs')
-    compile 'com.android.support:appcompat-v7:23.1.1'
-    compile 'com.interswitchng:payment-android:0.0.6'
+    compile 'com.android.support:appcompat-v7:25.1.0'
+    compile 'com.interswitchng:payment-android:1.0.0'
     compile(name: 'deviceprint-release-2.2.0', ext: 'aar')
 }
