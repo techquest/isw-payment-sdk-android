@@ -26,11 +26,13 @@ public class AddCardCallback extends IswCallback<AuthorizeCardResponse> {
 
     @Override
     public void onError(Exception error) {
+        Util.hideProgressDialog();
         Util.notify(context, "Error", error.getLocalizedMessage(), "Close", false);
     }
 
     @Override
     public void onSuccess(AuthorizeCardResponse response) {
+        Util.hideProgressDialog();
         String transactionRef = response.getTransactionRef();
         Util.notify(context, "Success", "Ref: " + transactionRef, "Close", false);
         if (!arrayList.contains(response)) {

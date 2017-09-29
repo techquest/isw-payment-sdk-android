@@ -24,6 +24,7 @@ import com.interswitchng.sdk.payment.android.PaymentSDK;
 import com.interswitchng.sdk.payment.android.inapp.PayWithToken;
 import com.interswitchng.sdk.payment.android.inapp.ValidateCard;
 import com.interswitchng.sdk.payment.android.paymentdemo.callback.AddCardCallback;
+import com.interswitchng.sdk.payment.android.paymentdemo.callback.PaymentCallback;
 import com.interswitchng.sdk.payment.android.util.Util;
 import com.interswitchng.sdk.payment.model.AuthorizeCardResponse;
 import com.interswitchng.sdk.payment.model.Card;
@@ -57,33 +58,20 @@ public class CardList extends AppCompatActivity {
         cardList.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             public void onItemClick(AdapterView<?> parent, View view,
                                     int position, long id) {
-                /*Util.showProgressDialog(context, "Charging card");
                 // When clicked, Pay using token
-                AddCardResponse response = arrayList.get(position);
-                RequestOptions options = RequestOptions.builder().setClientId("IKIA6B0791CBFF07D20A9C0183BED00C2703EBA97092").setClientSecret("zjtlRvzVq2eG8B+CRYScnIWNQsMQG9/GaU4aLStdY9w=").build();
-                String customerId = "1407002510";
+                AuthorizeCardResponse response = arrayList.get(position);
+                RequestOptions options = RequestOptions.builder().setClientId("IKIA9614B82064D632E9B6418DF358A6A4AEA84D7218").setClientSecret("XCTiBtLy1G9chAnyg0z3BcaFK4cVpwDg/GTw2EmjTZ8=").build();
+                String customerId = "1407002516";
                 String amount = "200";
                 String token = response.getToken();
                 String expiryDate = response.getTokenExpiryDate();
-                //String requestorId = "11179920172";
+                String cardType = response.getCardType();
+                String last4Digits = response.getPanLast4Digits();
+                String description = "Paying with Token";
                 String currency = "NGN";
-                PayWithToken payWithCardNoUi = new PayWithToken(activity, customerId, amount, token, expiryDate, currency, options, new IswCallback<PurchaseResponse>() {
-
-                    @Override
-                    public void onError(Exception error) {
-                        Util.hideProgressDialog();
-                        Util.notify(context, "Error", error.getMessage(), "Close", false);
-                    }
-
-                    @Override
-                    public void onSuccess(final PurchaseResponse response) {
-                        Util.hideProgressDialog();
-                        String transactionIdentifier;
-                        transactionIdentifier = response.getTransactionIdentifier();
-                        Util.notify(context, "Success", "Ref: " + transactionIdentifier, "Close", false);
-                    }
-                });
-                payWithCardNoUi.start();*/
+                PaymentCallback paymentCallback = new PaymentCallback(context);
+                PayWithToken payWithCardNoUi = new PayWithToken(activity, customerId, amount, token, expiryDate, currency, cardType, last4Digits, description, options, paymentCallback);
+                payWithCardNoUi.start();
                 android.view.ActionMode mActionMode = CardList.this.startActionMode(new ActionBarCallBack(position));
             }
         });
@@ -105,11 +93,9 @@ public class CardList extends AppCompatActivity {
         transactionRef = RandomString.numeric(12);
         //noinspection SimplifiableIfStatement
         if (id == R.id.addCard) {
-            final RequestOptions options = RequestOptions.builder().setClientId("IKIA7A92206C10CA49EB553E9FAB51A38F27F4644551").setClientSecret("e4THPrg8rgXk3eiBsSHPJvAX4Wvpuxsg6aaPlNUoRKc=").build();
-            //final RequestOptions options = RequestOptions.builder().setClientId("IKIAB9CAC83B8CB8D064799DB34A58D2C8A7026A203B").setClientSecret("z+xzMgCB8cUu1XRlzj06/TiFgT9p2wuA6q5wiZc5HZo=").build();
-            //final RequestOptions options = RequestOptions.builder().setClientId("IKIAF8F70479A6902D4BFF4E443EBF15D1D6CB19E232").setClientSecret("ugsmiXPXOOvks9MR7+IFHSQSdk8ZzvwQMGvd0GJva30=").build();
+            final RequestOptions options = RequestOptions.builder().setClientId("IKIA9614B82064D632E9B6418DF358A6A4AEA84D7218").setClientSecret("XCTiBtLy1G9chAnyg0z3BcaFK4cVpwDg/GTw2EmjTZ8=").build();
             AddCardCallback addCardCallback = new AddCardCallback(context, arrayList, adapter);
-            final ValidateCard validateCard = new ValidateCard(activity, "1407002510", options, addCardCallback);
+            final ValidateCard validateCard = new ValidateCard(activity, "1407002513", options, addCardCallback);
             validateCard.start();
             return true;
         }
@@ -181,14 +167,11 @@ public class CardList extends AppCompatActivity {
         @Override
         public boolean onActionItemClicked(android.view.ActionMode actionMode, MenuItem menuItem) {
             AuthorizeCardResponse response = arrayList.get(position);
-            //final RequestOptions options = RequestOptions.builder().setClientId("IKIAF8F70479A6902D4BFF4E443EBF15D1D6CB19E232").setClientSecret("ugsmiXPXOOvks9MR7+IFHSQSdk8ZzvwQMGvd0GJva30=").build();
-            //final RequestOptions options = RequestOptions.builder().setClientId("IKIAB9CAC83B8CB8D064799DB34A58D2C8A7026A203B").setClientSecret("z+xzMgCB8cUu1XRlzj06/TiFgT9p2wuA6q5wiZc5HZo=").build();
-            final RequestOptions options = RequestOptions.builder().setClientId("IKIA7A92206C10CA49EB553E9FAB51A38F27F4644551").setClientSecret("e4THPrg8rgXk3eiBsSHPJvAX4Wvpuxsg6aaPlNUoRKc=").build();
-            String customerId = "1407002510";
+            final RequestOptions options = RequestOptions.builder().setClientId("IKIA9614B82064D632E9B6418DF358A6A4AEA84D7218").setClientSecret("XCTiBtLy1G9chAnyg0z3BcaFK4cVpwDg/GTw2EmjTZ8=").build();
+            String customerId = "1407002514";
             String amount = "200";
             String token = response.getToken();
             String expiryDate = response.getTokenExpiryDate();
-            //String requestorId = "11179920172";
             String currency = "NGN";
 
 
