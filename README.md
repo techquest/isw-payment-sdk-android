@@ -45,7 +45,7 @@ To use the payment library add this dependency to your pom.xml file
     <dependency>
       <groupId>com.interswitchng</groupId>
       <artifactId>isw-payment</artifactId>
-      <version>0.0.5</version>
+      <version>0.0.9</version>
       <type>pom</type>
     </dependency>
 ```
@@ -53,15 +53,15 @@ To use the payment library add this dependency to your pom.xml file
 ***Using gradle***
 Add this snippet to your build.gradle file
 ```
-    compile 'com.interswitchng:isw-payment:0.0.5'
+    compile 'com.interswitchng:isw-payment:0.0.9'
 ```
 
 ### <a name='UsingPaymentLibrary'></a> Using the Payment Library
 ***To set up the Payment request, use the snippet below***
 The first two lines is use to override the Live API BASE for both passport and payment
 ```java
-        Passport.overrideApiBase(Passport.QA_API_BASE); // Passport Api on QA Environment
-        Payment.overrideApiBase(Payment.QA_API_BASE);   // Payment Api on QA Environment
+        Passport.overrideApiBase(Passport.SANDBOX_API_BASE); // Passport Api on Sandbox Environment
+        Payment.overrideApiBase(Payment.SANDBOX_API_BASE);   // Payment Api on Sandbox Environment
         String clientId = "IKIAF8F70479A6902D4BFF4E443EBF15D1D6CB19E232";
         String clientSecret = "ugsmiXPXOOvks9MR7+IFHSQSdk8ZzvwQMGvd0GJva30=";
         RequestOptions.RequestOptionsBuilder builder = RequestOptions.builder().setClientId(clientId).setClientSecret(clientSecret);
@@ -97,6 +97,25 @@ The first two lines is use to override the Live API BASE for both passport and p
          Pareq if OTP is required and the responseCode = S0
         */
 ```
+
+## Supporting Split Payments
+With split payments, you can specify how the charge should be divided accross your different accounts.
+```java
+    SplitSettlement[] splitSettlements = new SplitSettlement[2];
+    SplitSettlement splitSettlement1 = new SplitSettlement();
+    splitSettlement1.setAccountIdentifier("fbn acct");
+    splitSettlement1.setAccountNo("0000000001");
+    splitSettlement1.setAmount("300");
+    SplitSettlement splitSettlement2 = new SplitSettlement();
+    splitSettlement2.setAccountIdentifier("uba acct");
+    splitSettlement2.setAccountNo("0000000002");
+    splitSettlement2.setAmount("400");
+    splitSettlements[0] = splitSettlement1;
+    splitSettlements[1] = splitSettlement2;
+    RequestOptions options = RequestOptions.builder().setClientId("IKIAF8F70479A6902D4BFF4E443EBF15D1D6CB19E232").setClientSecret("ugsmiXPXOOvks9MR7+IFHSQSdk8ZzvwQMGvd0GJva30=").setSplitSettlementInformation(splitSettlements).build();
+                    
+```
+
 
 ### <a name='AuthorizingPurchase'></a> Authorize Purchase
 To Authorize Purchase, the purchase response code from the transaction is used to determine the if the transaction requires OTP or VbyV
@@ -256,8 +275,8 @@ It consists of ​a library:
     }
     dependencies{
         compile 'com.interswitchng:payment-android:1.0.3'
-        compile 'com.android.support:appcompat-v7:23.1.1'
-        compile 'com.android.support:design:23.1.1'
+        compile 'com.android.support:appcompat-v7:25.1.0'
+        compile 'com.android.support:design:25.1.0'
     }
 ```
 7. Finally, rebuild the project
