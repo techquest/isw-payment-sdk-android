@@ -274,7 +274,7 @@ It consists of ​a library:
         }
     }
     dependencies{
-        compile 'com.interswitchng:payment-android:1.0.3'
+        compile 'com.interswitchng:payment-android:1.0.7'
         compile 'com.android.support:appcompat-v7:25.1.0'
         compile 'com.android.support:design:25.1.0'
     }
