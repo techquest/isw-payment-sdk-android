@@ -877,7 +877,9 @@ With split payments, you can specify how the charge should be divided accross yo
     cardType panLast4Digits, paymentDescription, options, paymentCallback);
     payWithToken.start();
 ```
-
+## <a name='Proguard-rule'></a>Proguard rule
+In your proguard-rule.pro file add 
+* -keep public class com.interswitchng.sdk.** {*;}
 
 ## <a name='BlackBerry'></a>Using Android SDK to Create Blackberry Application
 To create a Blackberry app using the **runtime for Android**
